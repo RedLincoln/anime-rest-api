@@ -1,12 +1,9 @@
 import express, { Router, Request, Response } from 'express'
 
-export const router: Router = express.Router()
+const router: Router = express.Router()
 
 router.get('/', (req: Request, res: Response) => {
-
+    res.send('weebo')
 })
 
-
-function getAnimes() {
-
-}
+export { router as animeRouter }
