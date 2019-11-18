@@ -35,7 +35,24 @@ router.delete('/:name', getAnime, async (req: CustomRequest, res: Response) => {
     try {
         await Anime.deleteOne({ name: req.params.name })
         await Episode.deleteMany({ anime: req.anime?._id })
-        res.json(`${req.params.name} deleted`)
+        res.json({ message: `${req.params.name} deleted` })
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+})
+
+router.patch('/:name', async (req: CustomRequest, res: Response) => {
+    try {
+        const anime: AnimeProps = req.body
+        console.log(anime)
+        const newAnime: AnimeProps | null = await Anime.findOneAndUpdate({
+            name: req.params.name
+        }, anime, { new: true })
+        if (newAnime) {
+            res.json(newAnime)
+        } else {
+            res.status(404).json({ message: `${req.params.name} not Found` })
+        }
     } catch (err) {
         res.status(500).json({ message: err.message })
     }

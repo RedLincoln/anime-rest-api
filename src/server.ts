@@ -12,6 +12,7 @@ app.use('/episode', EpisodeRouter)
 
 mongoose.connect(`${process.env.DATABASE_URL}`, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false)
 
 const db: Connection = mongoose.connection
 db.on('error', (err) => console.log(err))
