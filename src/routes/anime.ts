@@ -1,11 +1,9 @@
 import express, { Router, Request, Response, NextFunction } from 'express'
 import { Anime, AnimeProps } from '../models/anime'
 import { Episode, EpisodeProp } from '../models/episode'
+import { CustomRequest, getAnime } from './partials'
 
 const router: Router = express.Router()
-interface CustomRequest extends Request {
-    anime?: AnimeProps
-}
 
 router.get('/', async (req: Request, res: Response) => {
     try {
@@ -18,9 +16,12 @@ router.get('/', async (req: Request, res: Response) => {
     }
 })
 
+
 router.get('/:name', getAnime, (req: CustomRequest, res: Response) => {
     res.json(req.anime)
 })
+
+
 
 router.get('/:name/:number', getAnime, async (req: CustomRequest, res: Response) => {
     try {
@@ -38,22 +39,4 @@ router.get('/:name/:number', getAnime, async (req: CustomRequest, res: Response)
     }
 })
 
-async function getAnime(req: CustomRequest, res: Response, next: NextFunction) {
-    try {
-        const anime = await Anime.findOne({
-            name: req.params.name
-        })
-        if (!anime) {
-            res.status(404).json({ message: `Anime ${req.params.name} not found` })
-        } else {
-            req.anime = anime
-        }
-    } catch (err) {
-        res.status(500).json({ message: err.message })
-    }
-
-    next()
-}
-
-
-export { router as animeRouter }
+export { router as AnimeRouter }

@@ -1,10 +1,12 @@
 import express, { Application, Request, Response, Router } from 'express'
 import mongoose, { Connection } from 'mongoose'
 import './lib/env'
-import { animeRouter } from './routes/anime'
+import { AnimeRouter } from './routes/anime'
+import { EpisodeRouter } from './routes/episode'
 
 const app: Application = express()
-app.use('/anime', animeRouter)
+app.use('/anime', AnimeRouter)
+app.use('/episode', EpisodeRouter)
 
 mongoose.connect(`${process.env.DATABASE_URL}`, { useNewUrlParser: true, useUnifiedTopology: true });
 
