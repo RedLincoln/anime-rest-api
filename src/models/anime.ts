@@ -3,7 +3,7 @@ import {
     Type,
     typedModel,
     ExtractDoc,
-    ExtractProps,
+    ExtractProps
 } from 'ts-mongoose';
 
 
@@ -17,10 +17,10 @@ export const AnimeSchema = createSchema({
     durationPerEpisode: Type.string(),
     rating: Type.string(),
     status: Type.string(),
-    genre: Type.array().of(Type.string()),
+    genre: Type.array({ default: undefined }).of(Type.string()),
     addedDate: Type.date(),
     type: Type.string(),
-    studios: Type.array().of(Type.string())
+    studios: Type.array({ default: undefined }).of(Type.string())
 })
 
 

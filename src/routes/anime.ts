@@ -1,6 +1,6 @@
 import express, { Router, Request, Response, NextFunction } from 'express'
-import { Anime, AnimeProps } from '../models/anime'
-import { Episode, EpisodeProp } from '../models/episode'
+import { Anime, AnimeDoc, AnimeProps } from '../models/anime'
+import { Episode } from '../models/episode'
 import { CustomRequest, getAnime } from './partials'
 
 const router: Router = express.Router()
@@ -16,24 +16,26 @@ router.get('/', async (req: Request, res: Response) => {
     }
 })
 
-
 router.get('/:name', getAnime, (req: CustomRequest, res: Response) => {
     res.json(req.anime)
 })
 
 
-
-router.get('/:name/:number', getAnime, async (req: CustomRequest, res: Response) => {
+router.post('/', async (req: Request, res: Response) => {
     try {
-        const episode = await Episode.findOne({
-            anime: req.anime?._id,
-            number: parseFloat(req.params.number)
-        })
-        if (episode) {
-            res.json(episode)
-        } else {
-            res.status(404).json(`Episode ${req.params.number} of anime ${req.params.name} not found`)
-        }
+        const anime: AnimeDoc = new Anime(req.body)
+        const response = await anime.save()
+        res.json(response)
+    } catch (err) {
+        res.status(400).json({ message: err.message })
+    }
+})
+
+router.delete('/:name', getAnime, async (req: CustomRequest, res: Response) => {
+    try {
+        await Anime.deleteOne({ name: req.params.name })
+        await Episode.deleteMany({ anime: req.anime?._id })
+        res.json(`${req.params.name} deleted`)
     } catch (err) {
         res.status(500).json({ message: err.message })
     }

@@ -1,6 +1,6 @@
 
 import { Request, Response, NextFunction } from 'express'
-import { Anime, AnimeProps } from '../models/anime'
+import { Anime, AnimeProps, AnimeDoc } from '../models/anime'
 
 export interface CustomRequest extends Request {
     anime?: AnimeProps
@@ -22,4 +22,3 @@ export async function getAnime(req: CustomRequest, res: Response, next: NextFunc
 
     next()
 }
-

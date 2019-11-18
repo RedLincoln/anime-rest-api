@@ -8,10 +8,10 @@ import {
 import { AnimeSchema } from './anime'
 
 const EpisodeSchema = createSchema({
-    number: Type.number({ required: true }),
+    number: Type.number({ required: true, unique: true }),
     strNumber: Type.string({ required: true }),
     videoSrc: Type.string({ required: true }),
-    subtitleSrc: Type.array({ required: true }).of(Type.string({ required: true })),
+    subtitleSrc: Type.array({ required: true, default: undefined }).of(Type.string({ required: true })),
     openingStart: Type.number(),
     openingEnd: Type.number(),
     endingStart: Type.number(),
