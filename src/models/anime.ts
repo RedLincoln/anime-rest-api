@@ -7,7 +7,7 @@ import {
 } from 'ts-mongoose';
 
 
-const animeSchema = createSchema({
+export const AnimeSchema = createSchema({
     name: Type.string({ required: true }),
     thumbnail: Type.string(),
     synopsis: Type.string(),
@@ -24,6 +24,6 @@ const animeSchema = createSchema({
 })
 
 
-export const Anime = typedModel('animes', animeSchema)
-export type AnimeDoc = ExtractDoc<typeof animeSchema>
-export type AnimeProps = ExtractProps<typeof animeSchema>
+export const Anime = typedModel('animes', AnimeSchema)
+export type AnimeDoc = ExtractDoc<typeof AnimeSchema>
+export type AnimeProps = ExtractProps<typeof AnimeSchema>
